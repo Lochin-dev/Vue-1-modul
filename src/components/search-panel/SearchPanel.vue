@@ -1,10 +1,9 @@
 
 <template>
-    <input 
-    type="text" 
+    <Input 
     class="form-control search-input" 
     placeholder="Kinolarni qidirish"
-    :value="term"  
+    v-model="term"
     @input="changeHendler" 
     />
 </template>

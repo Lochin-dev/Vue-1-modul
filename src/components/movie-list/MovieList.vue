@@ -1,5 +1,5 @@
 <template >
-    <ul class="movie-list list-group">
+    <ul v-if="movies" class="movie-list list-group">
         <MovieListItem 
          v-for="movie in movies"
          v-bind:movie="movie" :key="movie.id"
@@ -7,6 +7,7 @@
          @onRemove="$emit('onRemove', $event)"
          />
     </ul>
+    <div v-else="movies">Hech narsa topilmadi</div>
 </template>
 
 <script>
