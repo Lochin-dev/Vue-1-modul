@@ -6,7 +6,6 @@
         }}</span>
         <input type="text" class="list-group-item-input" :value="movie.viewers">
         <div class="d-fl justify-content-center align-items-center">
-
             <button @click="$emit('onToggle', { id: movie.id, prop: 'favourite' })" type="button"
                 class="btn-cookie btn-sm">
                 <i class="fas fa-cookie"></i>

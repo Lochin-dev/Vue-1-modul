@@ -14,6 +14,29 @@
       </Box>
       <MovieList v-else :movies="onFilterHandlet(onSearchHander(movies, term), filter)" @onToggle="onToggleHandler"
         @onRemove="onRemoveHandler" />
+      <Box class="d-flex justify-content-center">
+        <nav aria-label="pagination">
+          <ul class="pagination pagination-sm">
+            <li class="page-item page-link" @click="previosPageHandler()">
+              <!-- <a class="page-link" href="#" aria-label="Previous"> -->
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+              <!-- </a> -->
+            </li>
+            <li v-for="pageNumber in totalPages"><span :class="{ 'active page-link': pageNumber === page }"
+                class="page-link" @click="updatePageHandler(pageNumber)">{{
+        pageNumber
+      }}</span>
+            </li>
+            <li class="page-item page-link" @click="nextPageHandler()">
+              <!-- <a class="page-link" href="#" aria-label="Next"> -->
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+              <!-- </a> -->
+            </li>
+          </ul>
+        </nav>
+      </Box>
       <MovieAddForm @createMovies="createMovie" />
     </div>
   </div>
@@ -49,8 +72,13 @@ export default {
   },
 
   methods: {
-    createMovie(item) {
-      this.movies.push(item)
+    async createMovie(item) {
+      try {
+        const response = await axios.post('https://jsonplaceholder.typicode.com/posts', item)
+        this.movies.push(response.data)
+      } catch (error) {
+        alert(error.message)
+      }
     },
     onToggleHandler({ id, prop }) {
       this.movies = this.movies.map(item => {
@@ -60,8 +88,14 @@ export default {
         return item
       })
     },
-    onRemoveHandler(id) {
-      this.movies = this.movies.filter(c => c.id !== id)
+
+    async onRemoveHandler(id) {
+      try {
+        const response = await axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`)
+        this.movies = this.movies.filter(c => c.id !== id)
+      } catch (error) {
+        alert(error.message)
+      }
     },
     onSearchHander(arr, term) {
       if (term.length === 0) {
@@ -84,7 +118,6 @@ export default {
       this.updateTermHander(this.term)
     },
     updateFilterHandler(filter) {
-      console.log(111, filter);
       this.filter = filter
     },
     async fetchMovies() {
@@ -105,16 +138,34 @@ export default {
         }))
         this.totalPages = Math.ceil(respons.headers["x-total-count"] / this.limt)
         this.movies = newArray
-        console.log(this.totalPages);
       } catch (error) {
         alert(error.message)
       } finally {
         this.loader = false;
       }
     },
+    updatePageHandler(page) {
+      this.page = page
+    },
+    previosPageHandler() {
+      if (this.page > 1) {
+        this.page -= 1
+      }
+    },
+    nextPageHandler() {
+      if (this.totalPages > this.page) {
+        this.page += 1
+      }
+    }
   },
   mounted() {
     this.fetchMovies()
+  },
+
+  watch: {
+    page() {
+      this.fetchMovies()
+    }
   }
 
 }</script>

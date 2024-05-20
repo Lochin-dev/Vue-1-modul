@@ -1,25 +1,8 @@
 <template>
     <div class="btn-group">
-        <PrimaryButton 
-        v-for="btn in filterButtons"
-        :key="btn.name"
-        @click="filterHandler(btn.name)" 
-        :class="[filterName === btn.name ? 'btn-dark' : 'btn-outline-dark' ]">{{btn.title}}
+        <PrimaryButton v-for="btn in filterButtons" :key="btn.name" @click="filterHandler(btn.name)"
+            :class="[filterName === btn.name ? 'btn-dark' : 'btn-outline-dark']">{{ btn.title }}
         </PrimaryButton>
-        <!-- <button 
-        class="btn" type="button" 
-        @click="filterHandler('all')" 
-        :class="[filterName === 'all' ? 'btn-dark' : 'btn-outline-dark' ]">Barcha kinolar
-        </button>
-
-        <button 
-        class="btn" type="button" 
-        @click="filterHandler('popular')" 
-        :class=" [filterName === 'popular'
-            ? 'btn-dark' : 'btn-outline-dark' ]">Mashxur kinolar</button>
-        <button class="btn" type="button" @click="filterHandler('mostViewers')" :class=" [filterName === 'mostViewers'
-            ? 'btn-dark' : 'btn-outline-dark' ]">Eng ko'p ko'rilgan
-            kinolar</button> -->
     </div>
 </template>
 <script>
@@ -38,14 +21,17 @@ export default {
     data() {
         return {
             filterButtons: [
-                {title: "Barcha kinolar", 
-                 name: "all"
+                {
+                    title: "Barcha kinolar",
+                    name: "all"
                 },
-                {title: "Mashxur kinolar", 
-                 name: "popular"
+                {
+                    title: "Mashxur kinolar",
+                    name: "popular"
                 },
-                {title: "Eng ko'p ko'rilgan", 
-                 name: "mostViewers"
+                {
+                    title: "Eng ko'p ko'rilgan",
+                    name: "mostViewers"
                 }
             ]
         }
